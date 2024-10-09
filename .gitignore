@@ -133,3 +133,5 @@ dist
 .svelte-kit/
 .vercel
 .env*.local
+
+.DS_Store

@@ -1,10 +1,14 @@
 {
 	"compilerOptions": {
 		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"lib": ["esnext", "DOM", "DOM.Iterable"],
+		"module": "esnext",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"strict": true,
-		"target": "ESNext"
+		"target": "ESNext",
+		"verbatimModuleSyntax": true,
 	},
 	"extends": "./.svelte-kit/tsconfig.json"
 }
