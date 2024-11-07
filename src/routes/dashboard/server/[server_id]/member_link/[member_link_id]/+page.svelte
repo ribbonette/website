@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 
 	import { get_server_member_links, update_server_member_link } from '$lib/client/api/server';
+	import { create_toast } from '$lib/client/store/interface/toasts.svelte';
 	import type { Connector, Connectors, Criteria, CriteriaItem, MemberLink } from '$lib/client/types/api/server';
 
 	$: member_link_id = parseInt($page.params.member_link_id);
@@ -57,8 +58,20 @@
 			display_name
 		});
 
-		alert('saved successfully!');
-		location.reload();
+		create_toast({
+			content_id: 'action.server.member_link.saved',
+			metadata: { display_name }
+		});
+
+		member_link = {
+			id: member_link_id,
+			display_name,
+
+			connectors,
+			criteria
+		};
+
+		is_saving = false;
 	}
 </script>
 
@@ -198,6 +211,7 @@
 		all: unset;
 		background: #fff;
 		border: 1px solid #000;
+		color: #000;
 		cursor: pointer;
 		padding: 4px 8px;
 		&:not(:disabled):hover {
@@ -211,12 +225,13 @@
 	// temporary css i copied from mdn web docsl ol
 	table {
 		background: white;
-	border-collapse: collapse;
-	border: 2px solid rgb(140 140 140);
-	font-family: sans-serif;
-	font-size: 0.8rem;
-	letter-spacing: 1px;
-	margin-bottom: 64px;
+		border-collapse: collapse;
+		border: 2px solid rgb(140 140 140);
+		color: #000;
+		font-family: sans-serif;
+		font-size: 0.8rem;
+		letter-spacing: 1px;
+		margin-bottom: 64px;
 	}
 
 	thead {

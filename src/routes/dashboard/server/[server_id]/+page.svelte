@@ -6,6 +6,7 @@
 	import type { API } from '$lib/client/types';
 
 	import { create_server_member_link, get_server_member_links } from '$lib/client/api/server';
+	import { create_toast } from '$lib/client/store/interface/toasts.svelte';
 	export let data;
 
 	$: server_id = $page.params.server_id;
@@ -21,9 +22,17 @@
 	const create_new = async () => {
 		new_creating = true;
 		const new_member_link = await create_server_member_link(server_id, new_display_name);
-		console.log(new_member_link);
 		if (!new_member_link.id)
 			return;
+
+		create_toast({
+			actions: [{
+				callback: () => alert('not implemented'),
+				content_id: 'Undo'
+			}],
+			content_id: 'action.server.member_link.created',
+			metadata: new_member_link
+		});
 
 		dialog_element.close();
 		goto(`/dashboard/server/${server_id}/member_link/${new_member_link.id}`);
@@ -87,6 +96,7 @@
 		all: unset;
 		background: #fff;
 		border: 1px solid #000;
+		color: #000;
 		cursor: pointer;
 		padding: 4px 8px;
 		&:not(:disabled):hover {
@@ -107,12 +117,13 @@
 	// temporary css i copied from mdn web docsl ol
 	table {
 		background: white;
-	border-collapse: collapse;
-	border: 2px solid rgb(140 140 140);
-	font-family: sans-serif;
-	font-size: 0.8rem;
-	letter-spacing: 1px;
-	margin-bottom: 64px;
+		border-collapse: collapse;
+		border: 2px solid rgb(140 140 140);
+		color: #000;
+		font-family: sans-serif;
+		font-size: 0.8rem;
+		letter-spacing: 1px;
+		margin-bottom: 64px;
 	}
 
 	thead {
